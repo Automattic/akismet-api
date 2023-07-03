@@ -10,7 +10,7 @@ externalDocs:
 paths:
   /verify-key:
     post:
-      summary: Verify Akismet API Key
+      summary: Verify Akismet API key
       description: |
         Verifies the provided Akismet API key to check its validity and ensure it can be used for API requests.
       requestBody:
@@ -50,3 +50,78 @@ paths:
                     description: Description of the encountered error.
       tags:
         - Key Verification
+  /comment-check:
+    post:
+      summary: Check comment for spam
+      description: |
+        Checks a comment against the Akismet spam database to determine if it is spam or not.
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                api_key:
+                  type: string
+                  description: The Akismet API key for authorization.
+                blog:
+                  type: string
+                  description: The front page or home URL of the instance making the request.
+                user_ip:
+                  type: string
+                  description: The IP address of the comment submitter.
+                user_agent:
+                  type: string
+                  description: The user agent string of the comment submitter's browser.
+                referrer:
+                  type: string
+                  description: The referring URL.
+                permalink:
+                  type: string
+                  description: The permanent URL of the entry the comment was submitted to.
+                comment_type:
+                  type: string
+                  description: The type of the comment.
+                comment_author:
+                  type: string
+                  description: |
+                    The name of the comment author.
+                    
+                    You can send "akismet-guaranteed-spam" to trigger a spam response for testing purposes.
+                comment_author_email:
+                  type: string
+                  description: The email address of the comment author.
+                comment_author_url:
+                  type: string
+                  description: The URL of the comment author.
+                comment_content:
+                  type: string
+                  description: The content of the comment.
+              required:
+                - api_key
+                - blog
+                - user_ip
+      responses:
+        '200':
+          description: Comment check successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  spam:
+                    type: boolean
+                    description: Indicates if the comment is classified as spam or not.
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Description of the encountered error.
+      tags:
+        - Comments

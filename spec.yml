@@ -3,12 +3,9 @@ info:
   title: Akismet API
   version: 1.0.0
 servers:
-  # Added by API Auto Mocking Plugin
-  - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/CHRIS_60/Akismet/1.0.0
   - url: https://rest.akismet.com/1.1
 externalDocs:
-  description: Akismet Developer Documentation
+  description: Akismet Developers Documentation
   url: https://akismet.com/developers
 paths:
   /verify-key:

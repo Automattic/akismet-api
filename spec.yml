@@ -54,7 +54,7 @@ paths:
                     type: string
                     description: Description of the encountered error.
       tags:
-        - Key Verification
+        - Key verification
   /comment-check:
     post:
       summary: Check comment for spam
@@ -129,10 +129,10 @@ paths:
                     type: string
                     description: Description of the encountered error.
       tags:
-        - Checking
+        - Check comment
   /submit-spam:
     post:
-      summary: Submit Spam
+      summary: Submit spam
       description: |
         Submits a comment as spam to Akismet for retraining.
       requestBody:
@@ -220,10 +220,10 @@ paths:
                     type: string
                     description: Description of the encountered error.
       tags:
-        - Training
+        - Submit spam
   /submit-ham:
     post:
-      summary: Submit Ham (False Positives)
+      summary: Submit ham (false positives)
       description: |
         Submits a false positive (legitimate comment marked as spam) to Akismet for training purposes.
       requestBody:
@@ -311,4 +311,4 @@ paths:
                     type: string
                     description: Description of the encountered error.
       tags:
-        - Training
+        - Submit ham

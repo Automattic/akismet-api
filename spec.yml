@@ -22,14 +22,19 @@ paths:
               properties:
                 key:
                   type: string
+                  description: The Akismet API key for authorization.
                 blog:
                   type: string
+                  description: The front page or home URL of the instance making the request.
               required:
                 - key
                 - blog
       responses:
         '200':
-          description: Key verification successful
+          description: |
+            Key verification successful.
+
+            If the verification returns "invalid", it usually includes an extra HTTP header with some debug information indicating exactly what was invalid about the call.
           content:
             application/json:
               schema:
@@ -124,7 +129,7 @@ paths:
                     type: string
                     description: Description of the encountered error.
       tags:
-        - Comments
+        - Checking
   /submit-spam:
     post:
       summary: Submit Spam

@@ -44,7 +44,11 @@ paths:
                   valid:
                     type: boolean
                     description: Indicates if the key is valid or not.
-              example: valid
+              examples:
+                valid:
+                  value: valid
+                invalid:
+                  value: invalid
       tags:
         - Key verification
   /comment-check:

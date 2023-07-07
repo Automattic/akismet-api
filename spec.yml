@@ -33,27 +33,18 @@ paths:
       responses:
         '200':
           description: |
-            Key verification successful.
+            Key verification response.
 
             If the verification returns "invalid", it usually includes an extra HTTP header with some debug information indicating exactly what was invalid about the call.
           content:
-            application/json:
+            text/plain:
               schema:
                 type: object
                 properties:
                   valid:
                     type: boolean
                     description: Indicates if the key is valid or not.
-        '400':
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    description: Description of the encountered error.
+              example: valid
       tags:
         - Key verification
   /comment-check:

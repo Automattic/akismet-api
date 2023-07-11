@@ -8,6 +8,11 @@ externalDocs:
   description: Akismet Developers Documentation
   url: https://akismet.com/developers
 components:
+  headers:
+    DebugHelpHeader:
+      description: Extra context for any error that has occurred.
+      schema:
+        type: string  
   responses:
     ThanksResponse:
       description: Successful submission
@@ -124,6 +129,9 @@ paths:
                   value: valid
                 invalid:
                   value: invalid
+          headers:
+            X-akismet-debug-help:
+              $ref: '#/components/headers/DebugHelpHeader'
       tags:
         - Key verification
   /comment-check:
@@ -152,6 +160,15 @@ paths:
                   value: "false"
                 error:
                   value: "invalid"
+          headers:
+            X-akismet-debug-help:
+              $ref: '#/components/headers/DebugHelpHeader'
+            X-akismet-pro-tip:
+              description: |
+                If this header is set to 'discard', then Akismet has determined that the comment is blatant 
+                spam, and you can safely discard it without saving it in any spam queue.
+              schema:
+                type: string
       tags:
         - Check comment
   /submit-spam:

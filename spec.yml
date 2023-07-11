@@ -7,6 +7,17 @@ servers:
 externalDocs:
   description: Akismet Developers Documentation
   url: https://akismet.com/developers
+components:
+  responses:
+    ThanksResponse:
+      description: Successful submission
+      content:
+        text/plain:
+          schema:
+            type: string
+          examples:
+            thanks:
+              value: "Thanks for making the web a better place."
 paths:
   /verify-key:
     post:
@@ -198,14 +209,7 @@ paths:
                 - user_ip
       responses:
         '200':
-          description: Spam submission successful
-          content:
-            text/plain:
-              schema:
-                type: string
-              examples:
-                submitted:
-                  value: "Thanks for making the web a better place."
+          $ref: '#/components/responses/ThanksResponse'
       tags:
         - Submit spam
   /submit-ham:
@@ -287,13 +291,6 @@ paths:
                 - user_ip
       responses:
         '200':
-          description: Ham submission successful
-          content:
-            text/plain:
-              schema:
-                type: string
-              examples:
-                submitted:
-                  value: "Thanks for making the web a better place."
+          $ref: '#/components/responses/ThanksResponse'
       tags:
         - Submit ham

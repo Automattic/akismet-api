@@ -18,6 +18,74 @@ components:
           examples:
             thanks:
               value: "Thanks for making the web a better place."
+  schemas:
+    StandardParameters:
+      type: object
+      properties:
+        api_key:
+          type: string
+          description: The Akismet API key for authorization.
+        blog:
+          type: string
+          description: The front page or home URL of the instance making the request.
+        user_ip:
+          type: string
+          description: The IP address of the comment submitter.
+        user_agent:
+          type: string
+          description: The user agent string of the comment submitter's browser.
+        comment_author:
+          type: string
+          description: |
+            The name of the comment author. Please provide a name or pseudonym.
+        comment_author_email:
+          type: string
+          description: The email address of the comment author.
+        comment_author_url:
+          type: string
+          description: The URL of the comment author.
+        comment_content:
+          type: string
+          description: The content of the comment.
+        permalink:
+          type: string
+          description: The permanent URL of the entry where the comment was submitted.
+        comment_type:
+          type: string
+          description: The type of the comment. Accepted values are "comment", "trackback", "pingback", or a custom type.
+        comment_date_gmt:
+          type: string
+          format: date-time
+          description: The GMT date and time the comment was created.
+        comment_post_modified_gmt:
+          type: string
+          format: date-time
+          description: The GMT date and time the post containing the comment was last modified.
+        comment_parent:
+          type: string
+          description: The ID of the parent comment, if applicable.
+        referrer:
+          type: string
+          description: The referrer URL of the comment submitter.
+        user_role:
+          type: string
+          description: The role of the comment submitter.
+        is_test:
+          type: boolean
+          description: Indicates whether the submission is a test. Default is false.
+        recheck_reason:
+          type: string
+          description: The reason for rechecking the comment.
+        honeypot_field_name:
+          type: string
+          description: The name of the honeypot field.
+        comment_context:
+          type: string
+          description: The context or location of the comment within the website.
+      required:
+        - api_key
+        - blog
+        - user_ip              
 paths:
   /verify-key:
     post:
@@ -69,51 +137,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              type: object
-              properties:
-                api_key:
-                  type: string
-                  description: The Akismet API key for authorization.
-                blog:
-                  type: string
-                  description: The front page or home URL of the instance making the request.
-                user_ip:
-                  type: string
-                  description: The IP address of the comment submitter.
-                user_agent:
-                  type: string
-                  description: The user agent string of the comment submitter's browser.
-                referrer:
-                  type: string
-                  description: The referring URL.
-                permalink:
-                  type: string
-                  description: The permanent URL of the entry the comment was submitted to.
-                comment_type:
-                  type: string
-                  description: The type of the comment.
-                comment_author:
-                  type: string
-                  description: |
-                    The name of the comment author.
-                    
-                    You can send "akismet-guaranteed-spam" to trigger a spam response for testing purposes.
-                comment_author_email:
-                  type: string
-                  description: |
-                    The email address of the comment author.
-
-                    You can send "akismet-guaranteed-spam@example.com" to trigger a spam response for testing purposes.
-                comment_author_url:
-                  type: string
-                  description: The URL of the comment author.
-                comment_content:
-                  type: string
-                  description: The content of the comment.
-              required:
-                - api_key
-                - blog
-                - user_ip
+              $ref: '#/components/schemas/StandardParameters'
       responses:
         '200':
           description: Comment check successful
@@ -141,72 +165,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              type: object
-              properties:
-                api_key:
-                  type: string
-                  description: The Akismet API key for authorization.
-                blog:
-                  type: string
-                  description: The front page or home URL of the instance making the request.
-                user_ip:
-                  type: string
-                  description: The IP address of the comment submitter.
-                user_agent:
-                  type: string
-                  description: The user agent string of the comment submitter's browser.
-                comment_author:
-                  type: string
-                  description: |
-                    The name of the comment author. Please provide a name or pseudonym.
-                comment_author_email:
-                  type: string
-                  description: The email address of the comment author.
-                comment_author_url:
-                  type: string
-                  description: The URL of the comment author.
-                comment_content:
-                  type: string
-                  description: The content of the comment.
-                permalink:
-                  type: string
-                  description: The permanent URL of the entry where the comment was submitted.
-                comment_type:
-                  type: string
-                  description: The type of the comment. Accepted values are "comment", "trackback", "pingback", or a custom type.
-                comment_date_gmt:
-                  type: string
-                  format: date-time
-                  description: The GMT date and time the comment was created.
-                comment_post_modified_gmt:
-                  type: string
-                  format: date-time
-                  description: The GMT date and time the post containing the comment was last modified.
-                comment_parent:
-                  type: string
-                  description: The ID of the parent comment, if applicable.
-                referrer:
-                  type: string
-                  description: The referrer URL of the comment submitter.
-                user_role:
-                  type: string
-                  description: The role of the comment submitter.
-                is_test:
-                  type: boolean
-                  description: Indicates whether the submission is a test. Default is false.
-                recheck_reason:
-                  type: string
-                  description: The reason for rechecking the comment.
-                honeypot_field_name:
-                  type: string
-                  description: The name of the honeypot field.
-                comment_context:
-                  type: string
-                  description: The context or location of the comment within the website.
-              required:
-                - api_key
-                - blog
-                - user_ip
+              $ref: '#/components/schemas/StandardParameters'
       responses:
         '200':
           $ref: '#/components/responses/ThanksResponse'
@@ -223,72 +182,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              type: object
-              properties:
-                api_key:
-                  type: string
-                  description: The Akismet API key for authorization.
-                blog:
-                  type: string
-                  description: The front page or home URL of the instance making the request.
-                user_ip:
-                  type: string
-                  description: The IP address of the comment submitter.
-                user_agent:
-                  type: string
-                  description: The user agent string of the comment submitter's browser.
-                comment_author:
-                  type: string
-                  description: |
-                    The name of the comment author. Please provide a name or pseudonym.
-                comment_author_email:
-                  type: string
-                  description: The email address of the comment author.
-                comment_author_url:
-                  type: string
-                  description: The URL of the comment author.
-                comment_content:
-                  type: string
-                  description: The content of the comment.
-                permalink:
-                  type: string
-                  description: The permanent URL of the entry where the comment was submitted.
-                comment_type:
-                  type: string
-                  description: The type of the comment. Accepted values are "comment", "trackback", "pingback", or a custom type.
-                comment_date_gmt:
-                  type: string
-                  format: date-time
-                  description: The GMT date and time the comment was created.
-                comment_post_modified_gmt:
-                  type: string
-                  format: date-time
-                  description: The GMT date and time the post containing the comment was last modified.
-                comment_parent:
-                  type: string
-                  description: The ID of the parent comment, if applicable.
-                referrer:
-                  type: string
-                  description: The referrer URL of the comment submitter.
-                user_role:
-                  type: string
-                  description: The role of the comment submitter.
-                is_test:
-                  type: boolean
-                  description: Indicates whether the submission is a test. Default is false.
-                recheck_reason:
-                  type: string
-                  description: The reason for rechecking the comment.
-                honeypot_field_name:
-                  type: string
-                  description: The name of the honeypot field.
-                comment_context:
-                  type: string
-                  description: The context or location of the comment within the website.
-              required:
-                - api_key
-                - blog
-                - user_ip
+              $ref: '#/components/schemas/StandardParameters'
       responses:
         '200':
           $ref: '#/components/responses/ThanksResponse'

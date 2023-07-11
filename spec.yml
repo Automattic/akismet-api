@@ -39,11 +39,7 @@ paths:
           content:
             text/plain:
               schema:
-                type: object
-                properties:
-                  valid:
-                    type: boolean
-                    description: Indicates if the key is valid or not.
+                type: string
               examples:
                 valid:
                   value: valid
@@ -93,7 +89,10 @@ paths:
                     You can send "akismet-guaranteed-spam" to trigger a spam response for testing purposes.
                 comment_author_email:
                   type: string
-                  description: The email address of the comment author.
+                  description: |
+                    The email address of the comment author.
+
+                    You can send "akismet-guaranteed-spam@example.com" to trigger a spam response for testing purposes.
                 comment_author_url:
                   type: string
                   description: The URL of the comment author.
@@ -108,23 +107,16 @@ paths:
         '200':
           description: Comment check successful
           content:
-            application/json:
+            text/plain:
               schema:
-                type: object
-                properties:
-                  spam:
-                    type: boolean
-                    description: Indicates if the comment is classified as spam or not.
-        '400':
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    description: Description of the encountered error.
+                type: string
+              examples:
+                spam:
+                  value: "true"
+                ham:
+                  value: "false"
+                error:
+                  value: "invalid"
       tags:
         - Check comment
   /submit-spam:
@@ -207,16 +199,13 @@ paths:
       responses:
         '200':
           description: Spam submission successful
-        '400':
-          description: Bad request
           content:
-            application/json:
+            text/plain:
               schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    description: Description of the encountered error.
+                type: string
+              examples:
+                submitted:
+                  value: "Thanks for making the web a better place."
       tags:
         - Submit spam
   /submit-ham:
@@ -299,15 +288,12 @@ paths:
       responses:
         '200':
           description: Ham submission successful
-        '400':
-          description: Bad request
           content:
-            application/json:
+            text/plain:
               schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    description: Description of the encountered error.
+                type: string
+              examples:
+                submitted:
+                  value: "Thanks for making the web a better place."
       tags:
         - Submit ham

@@ -3,7 +3,7 @@ info:
   title: Akismet API
   version: 1.0.0
 servers:
-  - url: https://rest.akismet.com/1.1
+  - url: https://rest.akismet.com
 externalDocs:
   description: Akismet Developers Documentation
   url: https://akismet.com/developers
@@ -90,9 +90,59 @@ components:
       required:
         - api_key
         - blog
-        - user_ip              
+        - user_ip
+
+    KeySitesResponse:
+      type: object
+      properties:
+        "YYYY-MM":
+          type: array
+          items:
+            $ref: "#/components/schemas/KeySiteEntry"
+        limit:
+          type: integer
+          description: The maximum number of entries returned per request.
+        offset:
+          type: integer
+          description: The offset of the first entry returned.
+        total:
+          type: integer
+          description: The total number of entries available.
+
+    KeySiteEntry:
+      type: object
+      properties:
+        site:
+          type: string
+          description: The site domain or identifier.
+        api_calls:
+          type: integer
+          description: The total number of API calls made for the site.
+        spam:
+          type: integer
+          description: The number of spam comments detected for the site.
+        ham:
+          type: integer
+          description: The number of legitimate comments detected for the site.
+        missed_spam:
+          type: integer
+          description: The number of spam comments missed by the system for the site.
+        false_positives:
+          type: integer
+          description: The number of legitimate comments marked as spam for the site.
+        is_revoked:
+          type: boolean
+          description: Indicates if the site's API key is revoked or not.
+      required:
+        - site
+        - api_calls
+        - spam
+        - ham
+        - missed_spam
+        - false_positives
+        - is_revoked
 paths:
-  /verify-key:
+  /1.1/verify-key:
     post:
       operationId: postVerifyKey
       summary: Verify Akismet API key
@@ -134,7 +184,7 @@ paths:
               $ref: '#/components/headers/DebugHelpHeader'
       tags:
         - Key verification
-  /comment-check:
+  /1.1/comment-check:
     post:
       operationId: postCommentCheck      
       summary: Check comment for spam
@@ -171,7 +221,7 @@ paths:
                 type: string
       tags:
         - Check comment
-  /submit-spam:
+  /1.1/submit-spam:
     post:
       operationId: postSubmitSpam      
       summary: Submit spam
@@ -188,7 +238,7 @@ paths:
           $ref: '#/components/responses/ThanksResponse'
       tags:
         - Submit spam
-  /submit-ham:
+  /1.1/submit-ham:
     post:
       operationId: postSubmitHam
       summary: Submit ham (false positives)
@@ -205,3 +255,90 @@ paths:
           $ref: '#/components/responses/ThanksResponse'
       tags:
         - Submit ham
+  /1.2/key-sites:
+    get:
+      operationId: getKeySites
+      summary: Keep track of the sites that are using your Akismet API key.
+      description: |
+        Lists sites using your API key along with stats on their API usage.
+      parameters:
+        - name: key
+          in: query
+          description: The Akismet API key for authorization.
+          required: true
+          schema:
+            type: string
+
+        - name: month
+          in: query
+          description: |
+            The month for which you would like to get the report (in `YYYY-MM` format). Defaults to the current month.
+          required: false
+          schema:
+            type: string
+
+        - name: format
+          in: query
+          description: |
+            The format in which you would like the results to be returned. Allowed values are `json` (default) and `csv`. Defaults to `json`.
+          required: false
+          schema:
+            type: string
+            enum:
+              - json
+              - csv
+
+        - name: order
+          in: query
+          description: |
+            The column by which you would like the results to be sorted. Defaults to `total`.
+          required: false
+          schema:
+            type: string
+            enum:
+              - total
+              - spam
+              - ham
+              - missed_spam
+              - false_positives
+
+        - name: limit
+          in: query
+          description: |
+            The maximum number of results returned in the report (defaults to 500).
+          required: false
+          schema:
+            type: integer
+
+        - name: offset
+          in: query
+          description: The offset of the results returned in the report (defaults to 0).
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+      responses:
+          '200':
+            description: Key sites response.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/KeySitesResponse'
+              text/csv:
+                schema:
+                  type: string
+                example: |
+                  Active sites for 123YourAPIKey during 2022-09 (limit:10, offset: 0, total: 4)
+                  Site,Total API Calls,Spam,Ham,Missed Spam,False Positives,Is Revoked
+                  site6735.domain.tld,14446,33,13,0,9,false
+                  site3026.domain.tld,8677,101,6,0,0,false
+                  site3737.domain.tld,4230,65,5,2,0,true
+                  site5653.domain.tld,2921,30,1,2,6,false
+              text/plain:
+                schema:
+                  type: string
+                examples:
+                  error:
+                    value: "invalid"
+      tags:
+        - List sites using API key    

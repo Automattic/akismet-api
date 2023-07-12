@@ -24,6 +24,39 @@ components:
             thanks:
               value: "Thanks for making the web a better place."
   schemas:
+    KeySiteEntry:
+      type: object
+      properties:
+        site:
+          type: string
+          description: The site domain or identifier.
+        api_calls:
+          type: integer
+          description: The total number of API calls made for the site.
+        spam:
+          type: integer
+          description: The number of spam comments detected for the site.
+        ham:
+          type: integer
+          description: The number of legitimate comments detected for the site.
+        missed_spam:
+          type: integer
+          description: The number of spam comments missed by the system for the site.
+        false_positives:
+          type: integer
+          description: The number of legitimate comments marked as spam for the site.
+        is_revoked:
+          type: boolean
+          description: Indicates if the site's API key is revoked or not.
+      required:
+        - site
+        - api_calls
+        - spam
+        - ham
+        - missed_spam
+        - false_positives
+        - is_revoked
+            
     StandardParameters:
       type: object
       properties:
@@ -91,56 +124,6 @@ components:
         - api_key
         - blog
         - user_ip
-
-    KeySitesResponse:
-      type: object
-      properties:
-        "YYYY-MM":
-          type: array
-          items:
-            $ref: "#/components/schemas/KeySiteEntry"
-        limit:
-          type: integer
-          description: The maximum number of entries returned per request.
-        offset:
-          type: integer
-          description: The offset of the first entry returned.
-        total:
-          type: integer
-          description: The total number of entries available.
-
-    KeySiteEntry:
-      type: object
-      properties:
-        site:
-          type: string
-          description: The site domain or identifier.
-        api_calls:
-          type: integer
-          description: The total number of API calls made for the site.
-        spam:
-          type: integer
-          description: The number of spam comments detected for the site.
-        ham:
-          type: integer
-          description: The number of legitimate comments detected for the site.
-        missed_spam:
-          type: integer
-          description: The number of spam comments missed by the system for the site.
-        false_positives:
-          type: integer
-          description: The number of legitimate comments marked as spam for the site.
-        is_revoked:
-          type: boolean
-          description: Indicates if the site's API key is revoked or not.
-      required:
-        - site
-        - api_calls
-        - spam
-        - ham
-        - missed_spam
-        - false_positives
-        - is_revoked
 paths:
   /1.1/verify-key:
     post:
@@ -262,7 +245,7 @@ paths:
       description: |
         Lists sites using your API key along with stats on their API usage.
       parameters:
-        - name: key
+        - name: api_key
           in: query
           description: The Akismet API key for authorization.
           required: true
@@ -323,7 +306,21 @@ paths:
             content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/KeySitesResponse'
+                  type: object
+                  properties:
+                    "YYYY-MM":
+                      type: array
+                      items:
+                        $ref: "#/components/schemas/KeySiteEntry"
+                    limit:
+                      type: integer
+                      description: The maximum number of entries returned per request.
+                    offset:
+                      type: integer
+                      description: The offset of the first entry returned.
+                    total:
+                      type: integer
+                      description: The total number of entries available.
               text/csv:
                 schema:
                   type: string
@@ -341,4 +338,52 @@ paths:
                   error:
                     value: "invalid"
       tags:
-        - List sites using API key    
+        - List sites using API key
+  /1.2/usage-limit:
+    get:
+      operationId: getUsageLimit
+      summary: Keep track of your Akismet API usage.
+      description: |
+        Returns your API usage limit and your usage for the current month.
+      parameters:
+        - name: api_key
+          in: query
+          description: The Akismet API key for authorization.
+          required: true
+          schema:
+            type: string
+      responses:
+          '200':
+            description: API usage response.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    limit:
+                      anyOf:
+                        - type: integer
+                        - type: string
+                      description: The number of monthly API calls your plan entitles you to. Returns `none` if your key is unlimited.
+                    usage:
+                      type: integer
+                      description: Number of calls (spam + ham) since the beginning of the current month, to date.
+                    percentage:
+                      type: string
+                      description: The percentage of your limit used since the beginning of the current month, to date.
+                    throttled:
+                      type: boolean
+                      description: Indicates if your requests are currently being throttled for having consistently gone over your plan’s limit.
+                  required:
+                    - limit
+                    - usage
+                    - percentage
+                    - throttled
+              text/plain:
+                schema:
+                  type: string
+                examples:
+                  error:
+                    value: "invalid"
+      tags:
+        - List API limit and usage          

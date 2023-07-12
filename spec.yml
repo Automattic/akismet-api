@@ -56,7 +56,7 @@ components:
         - missed_spam
         - false_positives
         - is_revoked
-            
+
     StandardParameters:
       type: object
       properties:
@@ -194,6 +194,14 @@ paths:
                 error:
                   value: "invalid"
           headers:
+            X-akismet-alert-code:
+              description: Error code. A full list is available at https://akismet.com/developers/errors/.
+              schema:
+                type: string
+            X-akismet-alert-msg:
+              description: Message describing the error code that can be shown to the end user.
+              schema:
+                type: string
             X-akismet-debug-help:
               $ref: '#/components/headers/DebugHelpHeader'
             X-akismet-pro-tip:

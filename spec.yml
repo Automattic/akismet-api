@@ -166,7 +166,7 @@ paths:
             X-akismet-debug-help:
               $ref: '#/components/headers/DebugHelpHeader'
       tags:
-        - Key verification
+        - key-verification
   /1.1/comment-check:
     post:
       operationId: postCommentCheck      
@@ -211,7 +211,7 @@ paths:
               schema:
                 type: string
       tags:
-        - Check comment
+        - spam
   /1.1/submit-spam:
     post:
       operationId: postSubmitSpam      
@@ -228,7 +228,7 @@ paths:
         '200':
           $ref: '#/components/responses/ThanksResponse'
       tags:
-        - Submit spam
+        - spam
   /1.1/submit-ham:
     post:
       operationId: postSubmitHam
@@ -245,7 +245,7 @@ paths:
         '200':
           $ref: '#/components/responses/ThanksResponse'
       tags:
-        - Submit ham
+        - spam
   /1.2/key-sites:
     get:
       operationId: getKeySites
@@ -346,7 +346,7 @@ paths:
                   error:
                     value: "invalid"
       tags:
-        - List sites using API key
+        - key-usage
   /1.2/usage-limit:
     get:
       operationId: getUsageLimit
@@ -394,4 +394,11 @@ paths:
                   error:
                     value: "invalid"
       tags:
-        - List API limit and usage          
+        - key-usage
+tags:
+  - name: key-verification
+    description: Verify Akismet API key
+  - name: spam
+    description: Check for spam, and submit spam or ham (false positives)
+  - name: key-usage
+    description: Check which sites use your API key and how many requests are being made        

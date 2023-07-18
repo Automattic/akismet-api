@@ -1,6 +1,7 @@
 openapi: 3.0.3
 info:
   title: Akismet API
+  description: An API to interact with the Akismet spam detection service.
   version: 1.0.0
 servers:
   - url: https://rest.akismet.com

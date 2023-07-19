@@ -78,6 +78,19 @@ components:
           type: integer
           description: The total number of entries available.    
 
+    KeyVerificationParameters:
+      type: object
+      properties:
+        key:
+          type: string
+          description: The Akismet API key for authorization.
+        blog:
+          type: string
+          description: The front page or home URL of the instance making the request.
+      required:
+        - key
+        - blog
+
     StandardParameters:
       type: object
       properties:
@@ -180,17 +193,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              type: object
-              properties:
-                key:
-                  type: string
-                  description: The Akismet API key for authorization.
-                blog:
-                  type: string
-                  description: The front page or home URL of the instance making the request.
-              required:
-                - key
-                - blog
+              $ref: '#/components/schemas/KeyVerificationParameters'
       responses:
         '200':
           description: |

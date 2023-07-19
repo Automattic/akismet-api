@@ -28,7 +28,8 @@ components:
             thanks:
               value: "Thanks for making the web a better place."
   schemas:
-    KeySiteEntry:
+    KeySitesMonthSummary:
+      description: Stats for a given site for a single month.
       type: object
       properties:
         site:
@@ -61,13 +62,14 @@ components:
         - false_positives
         - is_revoked
 
+    KeySitesMonthAllSites:
+      type: array
+      items: 
+        $ref: "#/components/schemas/KeySitesMonthSummary"
+
     KeySitesResponse:
       type: object
       properties:
-        "YYYY-MM":
-          type: array
-          items:
-            $ref: "#/components/schemas/KeySiteEntry"
         limit:
           type: integer
           description: The maximum number of entries returned per request.
@@ -76,7 +78,21 @@ components:
           description: The offset of the first entry returned.
         total:
           type: integer
-          description: The total number of entries available.    
+          description: The total number of entries available.
+      additionalProperties:
+        $ref: "#/components/schemas/KeySitesMonthAllSites"
+      example:
+        '2023-07':
+          site: example.com
+          api_calls: 1000
+          spam: 434
+          ham: 544
+          missed_spam: 5
+          false_positives: 2
+          is_revoked: false
+        limit: 500
+        offset: 0
+        total: 5
 
     KeyVerificationParameters:
       type: object

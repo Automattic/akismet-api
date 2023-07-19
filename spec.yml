@@ -61,6 +61,23 @@ components:
         - false_positives
         - is_revoked
 
+    KeySitesResponse:
+      type: object
+      properties:
+        "YYYY-MM":
+          type: array
+          items:
+            $ref: "#/components/schemas/KeySiteEntry"
+        limit:
+          type: integer
+          description: The maximum number of entries returned per request.
+        offset:
+          type: integer
+          description: The offset of the first entry returned.
+        total:
+          type: integer
+          description: The total number of entries available.    
+            
     StandardParameters:
       type: object
       properties:
@@ -318,21 +335,7 @@ paths:
             content:
               application/json:
                 schema:
-                  type: object
-                  properties:
-                    "YYYY-MM":
-                      type: array
-                      items:
-                        $ref: "#/components/schemas/KeySiteEntry"
-                    limit:
-                      type: integer
-                      description: The maximum number of entries returned per request.
-                    offset:
-                      type: integer
-                      description: The offset of the first entry returned.
-                    total:
-                      type: integer
-                      description: The total number of entries available.
+                  $ref: '#/components/schemas/KeySitesResponse'
               text/csv:
                 schema:
                   type: string

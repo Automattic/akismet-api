@@ -3,6 +3,9 @@ info:
   title: Akismet API
   description: An API to interact with the Akismet spam detection service.
   version: 1.0.0
+  contact:
+    name: Contact Akismet
+    url: https://akismet.com/contact
 servers:
   - url: https://rest.akismet.com
 externalDocs:

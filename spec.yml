@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Akismet API
-  description: An API to interact with the Akismet spam detection service.
+  description: Developer API to interact with the Akismet spam detection service.
   version: 1.0.0
   contact:
     name: Contact Akismet
@@ -163,9 +163,8 @@ components:
       type: object
       properties:
         limit:
-          anyOf:
-            - type: integer
-            - type: string
+          # This can actually be an integer or string, but oneOf is not well supported by code generators
+          type: string
           description: The number of monthly API calls your plan entitles you to. Returns `none` if your key is unlimited.
         usage:
           type: integer

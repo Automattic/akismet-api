@@ -236,7 +236,6 @@ paths:
       description: |
         Checks a comment against the Akismet spam database to determine if it is spam or not.
       requestBody:
-        required: true
         content:
           application/x-www-form-urlencoded:
             schema:
@@ -281,7 +280,6 @@ paths:
       description: |
         Submits a comment as spam to Akismet for retraining.
       requestBody:
-        required: true
         content:
           application/x-www-form-urlencoded:
             schema:
@@ -298,7 +296,6 @@ paths:
       description: |
         Submits a false positive (legitimate comment marked as spam) to Akismet for training purposes.
       requestBody:
-        required: true
         content:
           application/x-www-form-urlencoded:
             schema:

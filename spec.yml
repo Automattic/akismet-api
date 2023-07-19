@@ -77,7 +77,7 @@ components:
         total:
           type: integer
           description: The total number of entries available.    
-            
+
     StandardParameters:
       type: object
       properties:
@@ -145,6 +145,29 @@ components:
         - api_key
         - blog
         - user_ip
+
+    UsageLimitResponse:
+      type: object
+      properties:
+        limit:
+          anyOf:
+            - type: integer
+            - type: string
+          description: The number of monthly API calls your plan entitles you to. Returns `none` if your key is unlimited.
+        usage:
+          type: integer
+          description: Number of calls (spam + ham) since the beginning of the current month, to date.
+        percentage:
+          type: string
+          description: The percentage of your limit used since the beginning of the current month, to date.
+        throttled:
+          type: boolean
+          description: Indicates if your requests are currently being throttled for having consistently gone over your plan’s limit.
+      required:
+        - limit
+        - usage
+        - percentage
+        - throttled      
 paths:
   /1.1/verify-key:
     post:
@@ -373,27 +396,7 @@ paths:
             content:
               application/json:
                 schema:
-                  type: object
-                  properties:
-                    limit:
-                      anyOf:
-                        - type: integer
-                        - type: string
-                      description: The number of monthly API calls your plan entitles you to. Returns `none` if your key is unlimited.
-                    usage:
-                      type: integer
-                      description: Number of calls (spam + ham) since the beginning of the current month, to date.
-                    percentage:
-                      type: string
-                      description: The percentage of your limit used since the beginning of the current month, to date.
-                    throttled:
-                      type: boolean
-                      description: Indicates if your requests are currently being throttled for having consistently gone over your plan’s limit.
-                  required:
-                    - limit
-                    - usage
-                    - percentage
-                    - throttled
+                  $ref: '#/components/schemas/UsageLimitResponse'
               text/plain:
                 schema:
                   type: string

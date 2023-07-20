@@ -261,6 +261,14 @@ paths:
           schema:
             type: string
 
+        - name: filter
+          in: query
+          description: |
+            Filter results by site URL or partial site URL.
+          required: false
+          schema:
+            type: string
+
         - name: format
           in: query
           description: |

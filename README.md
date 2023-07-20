@@ -6,7 +6,7 @@ We have created an OpenAPI spec.yml file adhering to the OpenAPI v3 specificatio
 
 For example, you can import the specification into [SwaggerHub](https://github.com/Automattic/akismet-api/wiki/Using-the-Akismet-API-spec-with-SwaggerHub) or [Postman](https://www.postman.com/) to experiment with the API. You can also generate API SDK code automatically - we recommend [OpenAPI Generator](https://github.com/OpenAPITools/openapi-generator) for this.
 
-# Guides
+## Guides
 
 * [Using the Akismet API spec with SwaggerHub](https://github.com/Automattic/akismet-api/wiki/Using-the-Akismet-API-spec-with-SwaggerHub)
 * [Generating code with OpenAPI Generator](https://github.com/Automattic/akismet-api/wiki/Generating-code-with-OpenAPI-Generator)

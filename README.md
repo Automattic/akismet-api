@@ -13,7 +13,7 @@ For example, you can import the specification into [SwaggerHub](https://github.c
 
 ## Other API resources
 
-To get up and running with the Akismet API, take a look at our Getting Started guide:
+To get up and running with Akismet, take a look at our Getting Started guide:
 
 https://akismet.com/getting-started
 

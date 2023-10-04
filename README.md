@@ -16,6 +16,7 @@ For example, you can import the specification into [SwaggerHub](https://github.c
 To get up and running with Akismet, take a look at our Getting Started guide:
 
 [https://akismet.com/developers/getting-started](https://akismet.com/developers/getting-started)
+
 You can view full documentation for each endpoint at:
 
 [https://akismet.com/developers](https://akismet.com/developers)

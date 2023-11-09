@@ -402,9 +402,7 @@ paths:
         - name: from
           in: query
           description: |
-            The time period for the returned stats. Three values are accepted: 60-days, 6-months, and all. The default value is 6-months. A key must
-            have daily stats enabled to receive stats for 60-days. If it does not, the default value of 6-months will be used.
-            The response includes a breakdown of stats by time period:
+            The time period for the returned stats. Three values are accepted: 60-days, 6-months, and all. The default value is 6-months. A key must have daily stats enabled to receive stats for 60-days. If it does not, the default value of 6-months will be used. The response includes a breakdown of stats by time period:
               6-months: breakdown by month
               60-days: breakdown by day
               all: breakdown by year
@@ -416,23 +414,41 @@ paths:
               - 6-months
               - all
       responses:
-          '200':
-            description: Key sites response.
-            content:
-              application/json:
-                schema:
-                  type: object
-                  # OpenAPI Generator doesn't work well with a mixture of properties and additionalProperties,
-                  # so have left the response free-form
-                  additionalProperties: true
-                  example:
-
-              text/plain:
-                schema:
-                  type: string
-                examples:
-                  error:
-                    value: "invalid"
+        '200':
+          description: Get key stats response.
+          content:
+            application/json:
+              schema:
+                type: object
+                # OpenAPI Generator doesn't work well with a mixture of properties and additionalProperties,
+                # so have left the response free-form
+                additionalProperties: true
+                example:
+                  'spam': 50
+                  'ham': 137
+                  'missed_spam': 3
+                  'false_positives': 4
+                  'accuracy': 96.25
+                  'breakdown':
+                    '2023-10':
+                      'spam': 30
+                      'ham': 85
+                      'missed_spam': 2
+                      'false_positives': 3
+                      'da': '2023-10-01'
+                    '2023-09':
+                      'spam': 20
+                      'ham': 52
+                      'missed_spam': 1
+                      'false_positives': 1
+                      'da': '2023-09-01'
+                  'time_saved': 3000
+            text/plain:
+              schema:
+                type: string
+              examples:
+                error:
+                  value: "invalid"
       tags:
         - key-usage
   /1.2/get-key-stats:
@@ -440,8 +456,7 @@ paths:
       operationId: getKeyStats
       summary: Returns the stats for an API key.
       description: |
-        Returns the stats for an API key. The stats consist of total values of spam, ham, missed spam reports, false positive reports, accuracy,
-        and stats breakdown for the requested time periods.
+        Returns the stats for an API key. The stats consist of total values of spam, ham, missed spam reports, false positive reports, accuracy, and stats breakdown for the requested time periods.
       parameters:
         - name: api_key
           in: query
@@ -460,9 +475,7 @@ paths:
         - name: from
           in: query
           description: |
-            The time period for the returned stats. Three values are accepted: 60-days, 6-months, and all. The default value is 6-months. A key must
-            have daily stats enabled to receive stats for 60-days. If it doesn't not, the default value of 6-months will be used.
-            The response includes a breakdown of stats by time period:
+            The time period for the returned stats. Three values are accepted: 60-days, 6-months, and all. The default value is 6-months. A key must have daily stats enabled to receive stats for 60-days. If it doesn't not, the default value of 6-months will be used. The response includes a breakdown of stats by time period:
               6-months: breakdown by month
               60-days: breakdown by day
               all: breakdown by year
@@ -484,27 +497,27 @@ paths:
                   # so have left the response free-form
                   additionalProperties: true
                   example:
-                    'spam': 123
-                    'ham': 45
-                    'missed_spam': 2
-                    'false_positives': 1
-                    'accuracy':
+                    'spam': 50
+                    'ham': 137
+                    'missed_spam': 3
+                    'false_positives': 4
+                    'accuracy': 96.25
                     'breakdown':
                       '2023-10':
-                        'spam':
-                        'ham':
-                        'missed_spam':
-                        'false_positives':
-                        'blogs':
+                        'spam': 30
+                        'ham': 85
+                        'missed_spam': 2
+                        'false_positives': 3
+                        'blogs': 1
                         'da': '2023-10-01'
-                       '2023-09':
-                        'spam':
-                        'ham':
-                        'missed_spam':
-                        'false_positives':
-                        'blogs':
+                      '2023-09':
+                        'spam': 20
+                        'ham': 52
+                        'missed_spam': 1
+                        'false_positives': 1
+                        'blogs': 1
                         'da': '2023-09-01'
-                    'time_saved':
+                    'time_saved': 3000
               text/plain:
                 schema:
                   type: string
@@ -519,4 +532,4 @@ tags:
   - name: spam
     description: Check for spam, and submit spam or ham (false positives)
   - name: key-usage
-    description: Check which sites use your API key and how many requests are being made        
+    description: Check which sites use your API key and how many requests are being made

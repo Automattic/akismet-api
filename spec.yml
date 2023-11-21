@@ -405,7 +405,7 @@ paths:
           description: |
             The time period for the returned stats. Three values are accepted: 60-days, 6-months, and all. The default value is 6-months.
 
-            A key must have daily stats enabled to receive stats for 60-days. If key does not have daily stats enabled, the default value of 6-months will be used.
+            A key must have daily stats enabled to receive stats for 60-days. If the key does not have daily stats enabled, the default value of 6-months will be used.
 
             The response includes a breakdown of stats based on the queried time period (6-months: breakdown by month, 60-days: breakdown by day, all: breakdown by year).
           required: false
@@ -475,7 +475,7 @@ paths:
           description: |
             The time period for the returned stats. Three values are accepted: 60-days, 6-months, and all. The default value is 6-months.
 
-            A key must have daily stats enabled to receive stats for 60-days. If key does not have daily stats enabled, the default value of 6-months will be used.
+            A key must have daily stats enabled to receive stats for 60-days. If the key does not have daily stats enabled, the default value of 6-months will be used.
 
             The response includes a breakdown of stats based on the queried time period (6-months: breakdown by month, 60-days: breakdown by day, all: breakdown by year).
           required: false

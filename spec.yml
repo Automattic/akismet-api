@@ -386,7 +386,7 @@ paths:
         Returns the stats for an API key and site associated with that key. The stats consist of total values of spam, ham, missed spam reports, false positive reports, accuracy, a stats breakdown for the requested time period, and the time saved by using Akismet to catch spam.
 
       parameters:
-        - name: api_key
+        - name: key
           in: query
           description: The Akismet API key for authorization.
           required: true
@@ -463,7 +463,7 @@ paths:
       description: |
         Returns the stats for an API key. The stats consist of total values of spam, ham, missed spam reports, false positive reports, accuracy, a stats breakdown for the requested time period, and the time saved by using Akismet to catch spam.
       parameters:
-        - name: api_key
+        - name: key
           in: query
           description: The Akismet API key for authorization.
           required: true

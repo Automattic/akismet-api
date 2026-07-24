@@ -343,7 +343,7 @@ paths:
                 schema:
                   type: string
                 example: |
-                  Active sites for 123YourAPIKey during 2022-09 (limit:10, offset: 0, total: 4)
+                  Active sites for 123YourAPIKey during 2022-09 (limit: 10, offset: 0, total: 4).
                   Site,Total API Calls,Spam,Ham,Missed Spam,False Positives,Is Revoked
                   site6735.domain.tld,14446,33,13,0,9,false
                   site3026.domain.tld,8677,101,6,0,0,false

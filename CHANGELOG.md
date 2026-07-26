@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Corrected the `/1.2/key-sites` examples to match live backend responses: the `month` key now contains an array of site objects, per-site statistics are represented as quoted strings, and the CSV example header was updated to match backend output. ([#3](https://github.com/Automattic/akismet-api/pull/3))
+- Corrected the `/1.2/key-sites` examples to match live backend responses. ([#3](https://github.com/Automattic/akismet-api/pull/3))
 
 ## [1.0.0]
 

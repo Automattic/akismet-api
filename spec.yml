@@ -321,22 +321,29 @@ paths:
                   additionalProperties: true
                   example:
                     '2023-07':
-                      site: example.com
-                      api_calls: 1000
-                      spam: 434
-                      ham: 544
-                      missed_spam: 5
-                      false_positives: 2
-                      is_revoked: false
+                      - site: example.com
+                        api_calls: "1000"
+                        spam: "434"
+                        ham: "544"
+                        missed_spam: "5"
+                        false_positives: "2"
+                        is_revoked: false
+                      - site: example.org
+                        api_calls: "250"
+                        spam: "150"
+                        ham: "100"
+                        missed_spam: "0"
+                        false_positives: "1"
+                        is_revoked: false
                     limit: 500
                     offset: 0
-                    total: 5
+                    total: 2
 
               text/csv:
                 schema:
                   type: string
                 example: |
-                  Active sites for 123YourAPIKey during 2022-09 (limit:10, offset: 0, total: 4)
+                  Active sites for 123YourAPIKey during 2022-09 (limit: 10, offset: 0, total: 4).
                   Site,Total API Calls,Spam,Ham,Missed Spam,False Positives,Is Revoked
                   site6735.domain.tld,14446,33,13,0,9,false
                   site3026.domain.tld,8677,101,6,0,0,false

@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Akismet API
   description: Developer API to interact with the Akismet spam detection service.
-  version: 1.0.1
+  version: 1.0.2
   contact:
     name: Contact Akismet
     url: https://akismet.com/contact
@@ -31,14 +31,14 @@ components:
     KeyVerificationParameters:
       type: object
       properties:
-        key:
+        api_key:
           type: string
           description: The Akismet API key for authorization.
         blog:
           type: string
           description: The front page or home URL of the instance making the request.
       required:
-        - key
+        - api_key
         - blog
 
     StandardParameters:

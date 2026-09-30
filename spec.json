@@ -1,0 +1,540 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Akismet API",
+    "description": "Developer API to interact with the Akismet spam detection service.",
+    "version": "1.0.1",
+    "contact": {
+      "name": "Contact Akismet",
+      "url": "https://akismet.com/contact"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://rest.akismet.com"
+    }
+  ],
+  "tags": [
+    {
+      "name": "key-verification",
+      "description": "Verify Akismet API key"
+    },
+    {
+      "name": "spam",
+      "description": "Check for spam, and submit spam or ham (false positives)"
+    },
+    {
+      "name": "key-usage",
+      "description": "Check which sites use your API key and how many requests are being made"
+    }
+  ],
+  "externalDocs": {
+    "description": "Akismet Developers Documentation",
+    "url": "https://akismet.com/developers"
+  },
+  "paths": {
+    "/1.1/verify-key": {
+      "post": {
+        "operationId": "postVerifyKey",
+        "summary": "Verify Akismet API key",
+        "description": "Verifies the provided Akismet API key to check its validity and ensure it can be used for API requests.\n",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/KeyVerificationParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Key verification response.\n\nIf the verification returns \"invalid\", it usually includes an extra HTTP header with some debug information indicating exactly what was invalid about the call.\n",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {
+                  "valid": {
+                    "value": "valid"
+                  },
+                  "invalid": {
+                    "value": "invalid"
+                  }
+                }
+              }
+            },
+            "headers": {
+              "X-akismet-debug-help": {
+                "$ref": "#/components/headers/DebugHelpHeader"
+              }
+            }
+          }
+        },
+        "tags": [
+          "key-verification"
+        ]
+      }
+    },
+    "/1.1/comment-check": {
+      "post": {
+        "operationId": "postCommentCheck",
+        "summary": "Check comment for spam",
+        "description": "Checks a comment against the Akismet spam database to determine if it is spam or not.\n",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/StandardParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Comment check successful",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {
+                  "spam": {
+                    "value": "true"
+                  },
+                  "ham": {
+                    "value": "false"
+                  },
+                  "error": {
+                    "value": "invalid"
+                  }
+                }
+              }
+            },
+            "headers": {
+              "X-akismet-alert-code": {
+                "description": "Error code. A full list is available at https://akismet.com/developers/errors/.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-akismet-alert-msg": {
+                "description": "Message describing the error code that can be shown to the end user.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-akismet-debug-help": {
+                "$ref": "#/components/headers/DebugHelpHeader"
+              },
+              "X-akismet-pro-tip": {
+                "description": "If this header is set to 'discard', then Akismet has determined that the comment is blatant \nspam, and you can safely discard it without saving it in any spam queue.\n",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "spam"
+        ]
+      }
+    },
+    "/1.1/submit-spam": {
+      "post": {
+        "operationId": "postSubmitSpam",
+        "summary": "Submit spam",
+        "description": "Submits a comment as spam to Akismet for retraining.\n",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/StandardParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ThanksResponse"
+          }
+        },
+        "tags": [
+          "spam"
+        ]
+      }
+    },
+    "/1.1/submit-ham": {
+      "post": {
+        "operationId": "postSubmitHam",
+        "summary": "Submit ham (false positives)",
+        "description": "Submits a false positive (legitimate comment marked as spam) to Akismet for training purposes.\n",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/StandardParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ThanksResponse"
+          }
+        },
+        "tags": [
+          "spam"
+        ]
+      }
+    },
+    "/1.2/key-sites": {
+      "get": {
+        "operationId": "getKeySites",
+        "summary": "Keep track of the sites that are using your Akismet API key.",
+        "description": "Lists sites using your API key along with stats on their API usage.\n",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "query",
+            "description": "The Akismet API key for authorization.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "month",
+            "in": "query",
+            "description": "The month for which you would like to get the report (in `YYYY-MM` format). Defaults to the current month.\n",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Filter results by site URL or partial site URL.\n",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "description": "The format in which you would like the results to be returned. Allowed values are `json` (default) and `csv`. Defaults to `json`.\n",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "json",
+                "csv"
+              ]
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "The column by which you would like the results to be sorted. Defaults to `total`.\n",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "total",
+                "spam",
+                "ham",
+                "missed_spam",
+                "false_positives"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The maximum number of results returned in the report (defaults to 500).\n",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The offset of the results returned in the report (defaults to 0).",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Key sites response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "example": {
+                    "2023-07": [
+                      {
+                        "site": "example.com",
+                        "api_calls": "1000",
+                        "spam": "434",
+                        "ham": "544",
+                        "missed_spam": "5",
+                        "false_positives": "2",
+                        "is_revoked": false
+                      },
+                      {
+                        "site": "example.org",
+                        "api_calls": "250",
+                        "spam": "150",
+                        "ham": "100",
+                        "missed_spam": "0",
+                        "false_positives": "1",
+                        "is_revoked": false
+                      }
+                    ],
+                    "limit": 500,
+                    "offset": 0,
+                    "total": 2
+                  }
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Active sites for 123YourAPIKey during 2022-09 (limit: 10, offset: 0, total: 4).\nSite,Total API Calls,Spam,Ham,Missed Spam,False Positives,Is Revoked\nsite6735.domain.tld,14446,33,13,0,9,false\nsite3026.domain.tld,8677,101,6,0,0,false\nsite3737.domain.tld,4230,65,5,2,0,true\nsite5653.domain.tld,2921,30,1,2,6,false\n"
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {
+                  "error": {
+                    "value": "invalid"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "key-usage"
+        ]
+      }
+    },
+    "/1.2/usage-limit": {
+      "get": {
+        "operationId": "getUsageLimit",
+        "summary": "Keep track of your Akismet API usage.",
+        "description": "Returns your API usage limit and your usage for the current month.\n",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "query",
+            "description": "The Akismet API key for authorization.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "API usage response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsageLimitResponse"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {
+                  "error": {
+                    "value": "invalid"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "key-usage"
+        ]
+      }
+    }
+  },
+  "components": {
+    "headers": {
+      "DebugHelpHeader": {
+        "description": "Extra context for any error that has occurred.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "responses": {
+      "ThanksResponse": {
+        "description": "Successful submission",
+        "content": {
+          "text/plain": {
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "thanks": {
+                "value": "Thanks for making the web a better place."
+              }
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "KeyVerificationParameters": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "The Akismet API key for authorization."
+          },
+          "blog": {
+            "type": "string",
+            "description": "The front page or home URL of the instance making the request."
+          }
+        },
+        "required": [
+          "key",
+          "blog"
+        ]
+      },
+      "StandardParameters": {
+        "type": "object",
+        "properties": {
+          "api_key": {
+            "type": "string",
+            "description": "The Akismet API key for authorization."
+          },
+          "blog": {
+            "type": "string",
+            "description": "The front page or home URL of the instance making the request."
+          },
+          "user_ip": {
+            "type": "string",
+            "description": "The IP address of the comment submitter."
+          },
+          "user_agent": {
+            "type": "string",
+            "description": "The user agent string of the comment submitter's browser."
+          },
+          "comment_author": {
+            "type": "string",
+            "description": "The name of the comment author. Please provide a name or pseudonym.\n"
+          },
+          "comment_author_email": {
+            "type": "string",
+            "description": "The email address of the comment author."
+          },
+          "comment_author_url": {
+            "type": "string",
+            "description": "The URL of the comment author."
+          },
+          "comment_content": {
+            "type": "string",
+            "description": "The content of the comment."
+          },
+          "permalink": {
+            "type": "string",
+            "description": "The permanent URL of the entry where the comment was submitted."
+          },
+          "comment_type": {
+            "type": "string",
+            "description": "The type of the comment. Accepted values are \"comment\", \"trackback\", \"pingback\", or a custom type."
+          },
+          "comment_date_gmt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The GMT date and time the comment was created."
+          },
+          "comment_post_modified_gmt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The GMT date and time the post containing the comment was last modified."
+          },
+          "comment_parent": {
+            "type": "string",
+            "description": "The ID of the parent comment, if applicable."
+          },
+          "referrer": {
+            "type": "string",
+            "description": "The referrer URL of the comment submitter."
+          },
+          "user_role": {
+            "type": "string",
+            "description": "The role of the comment submitter."
+          },
+          "is_test": {
+            "type": "boolean",
+            "description": "Indicates whether the submission is a test. Default is false."
+          },
+          "recheck_reason": {
+            "type": "string",
+            "description": "The reason for rechecking the comment."
+          },
+          "honeypot_field_name": {
+            "type": "string",
+            "description": "The name of the honeypot field."
+          },
+          "comment_context": {
+            "type": "string",
+            "description": "The context or location of the comment within the website."
+          }
+        },
+        "required": [
+          "api_key",
+          "blog",
+          "user_ip"
+        ]
+      },
+      "UsageLimitResponse": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "string",
+            "description": "The number of monthly API calls your plan entitles you to. Returns `none` if your key is unlimited."
+          },
+          "usage": {
+            "type": "integer",
+            "description": "Number of calls (spam + ham) since the beginning of the current month, to date."
+          },
+          "percentage": {
+            "type": "string",
+            "description": "The percentage of your limit used since the beginning of the current month, to date."
+          },
+          "throttled": {
+            "type": "boolean",
+            "description": "Indicates if your requests are currently being throttled for having consistently gone over your plan’s limit."
+          }
+        },
+        "required": [
+          "limit",
+          "usage",
+          "percentage",
+          "throttled"
+        ]
+      }
+    }
+  }
+}

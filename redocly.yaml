@@ -1,0 +1,9 @@
+extends:
+  - recommended
+
+rules:
+  # The API key is sent as a form/query parameter rather than via an OpenAPI security scheme.
+  security-defined: off
+  # Akismet signals errors with 200 responses and plain-text bodies (e.g. "invalid").
+  operation-4xx-response: off
+  info-license: off

@@ -1,0 +1,25 @@
+name: Spec
+
+on:
+  pull_request:
+  push:
+    branches: [trunk]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Lint spec.yml
+        run: npx -y @redocly/cli@2.55.0 lint spec.yml
+      - name: Regenerate spec.json
+        run: npx -y @redocly/cli@2.55.0 bundle spec.yml -o spec.json
+      - name: Check spec.json is up to date
+        run: |
+          git diff --exit-code spec.json || {
+            echo "::error file=spec.json::spec.json is out of date. Run: npx @redocly/cli@2.55.0 bundle spec.yml -o spec.json"
+            exit 1
+          }

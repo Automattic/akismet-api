@@ -6,6 +6,16 @@ We have created an OpenAPI spec.yml file adhering to the OpenAPI v3.0.3 specific
 
 For example, you can import the specification into [SwaggerHub](https://github.com/Automattic/akismet-api/wiki/Using-the-Akismet-API-spec-with-SwaggerHub) or [Postman](https://www.postman.com/) to experiment with the API. You can also generate code to work with the API automatically - we recommend [OpenAPI Generator](https://github.com/OpenAPITools/openapi-generator) for this.
 
+## JSON version
+
+A JSON version of the spec is available in [`spec.json`](spec.json). It is generated from `spec.yml`, so edit `spec.yml` and then regenerate it:
+
+```sh
+npx @redocly/cli@2.55.0 bundle spec.yml -o spec.json
+```
+
+CI lints `spec.yml` and fails if `spec.json` is out of date.
+
 ## Guides
 
 * [Using the Akismet API spec with SwaggerHub](https://github.com/Automattic/akismet-api/wiki/Using-the-Akismet-API-spec-with-SwaggerHub)

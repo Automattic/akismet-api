@@ -6,10 +6,19 @@ on:
     branches: [trunk]
 
 jobs:
-  check:
+  generate:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      # The workflow token can only push to branches in this repository, not to forks.
+      CAN_PUSH: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Check out the PR branch itself (not the merge commit) so spec.json can be pushed back to it.
+          repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
+          ref: ${{ github.head_ref || github.ref_name }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -17,7 +26,19 @@ jobs:
         run: npx -y @redocly/cli@2.55.0 lint spec.yml
       - name: Regenerate spec.json
         run: npx -y @redocly/cli@2.55.0 bundle spec.yml -o spec.json
+      - name: Commit spec.json
+        if: env.CAN_PUSH == 'true'
+        run: |
+          if git diff --quiet spec.json; then
+            echo "spec.json is already up to date."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Regenerate spec.json from spec.yml" spec.json
+          git push
       - name: Check spec.json is up to date
+        if: env.CAN_PUSH != 'true'
         run: |
           git diff --exit-code spec.json || {
             echo "::error file=spec.json::spec.json is out of date. Run: npx @redocly/cli@2.55.0 bundle spec.yml -o spec.json"

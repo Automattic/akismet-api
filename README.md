@@ -8,13 +8,13 @@ For example, you can import the specification into [SwaggerHub](https://github.c
 
 ## JSON version
 
-A JSON version of the spec is available in [`spec.json`](spec.json). It is generated from `spec.yml`, so edit `spec.yml` and then regenerate it:
+A JSON version of the spec is available in [`spec.json`](spec.json). It is generated from `spec.yml`, so only edit `spec.yml`.
+
+On every pull request, CI lints `spec.yml`, regenerates `spec.json`, and commits it to the PR branch if it changed. Pull requests from forks can't be pushed to, so there CI fails if `spec.json` is out of date and you'll need to regenerate it yourself:
 
 ```sh
 npx @redocly/cli@2.55.0 bundle spec.yml -o spec.json
 ```
-
-CI lints `spec.yml` and fails if `spec.json` is out of date.
 
 ## Guides
 

@@ -3,7 +3,7 @@
   "info": {
     "title": "Akismet API",
     "description": "Developer API to interact with the Akismet spam detection service.",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "contact": {
       "name": "Contact Akismet",
       "url": "https://akismet.com/contact"
@@ -406,7 +406,7 @@
       "KeyVerificationParameters": {
         "type": "object",
         "properties": {
-          "key": {
+          "api_key": {
             "type": "string",
             "description": "The Akismet API key for authorization."
           },
@@ -416,7 +416,7 @@
           }
         },
         "required": [
-          "key",
+          "api_key",
           "blog"
         ]
       },

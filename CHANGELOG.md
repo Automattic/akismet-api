@@ -5,6 +5,12 @@ All notable changes to the Akismet API spec are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2]
+
+### Changed
+
+- Renamed the `/1.1/verify-key` `key` parameter to `api_key` for consistency with the other endpoints.
+
 ## [1.0.1]
 
 ### Fixed

@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Akismet API
   description: Developer API to interact with the Akismet spam detection service.
-  version: 1.0.2
+  version: 1.0.3
   contact:
     name: Contact Akismet
     url: https://akismet.com/contact
@@ -205,6 +205,13 @@ paths:
                 spam, and you can safely discard it without saving it in any spam queue.
               schema:
                 type: string
+            X-akismet-recheck-after:
+              description: |
+                If this header is present, then Akismet is requesting that you check the comment again
+                using the comment-check endpoint in that many seconds. Submit the same request again
+                with the additional parameter `recheck_reason=recheck`.
+              schema:
+                type: integer
       tags:
         - spam
   /1.1/submit-spam:

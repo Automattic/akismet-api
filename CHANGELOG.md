@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added the `X-akismet-recheck-after` response header to `/1.1/comment-check`.
 
+### Changed
+
+- Added schema descriptions and terms of service.
+
 ## [1.0.2]
 
 ### Changed

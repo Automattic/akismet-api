@@ -3,6 +3,7 @@ info:
   title: Akismet API
   description: Developer API to interact with the Akismet spam detection service.
   version: 1.1.0
+  termsOfService: https://akismet.com/tos/
   contact:
     name: Contact Akismet
     url: https://akismet.com/contact
@@ -29,6 +30,7 @@ components:
               value: "Thanks for making the web a better place."
   schemas:
     KeyVerificationParameters:
+      description: Parameters required to verify an Akismet API key.
       type: object
       properties:
         api_key:
@@ -42,6 +44,7 @@ components:
         - blog
 
     StandardParameters:
+      description: Parameters describing a comment, used when checking or submitting spam and ham.
       type: object
       properties:
         api_key:
@@ -110,6 +113,7 @@ components:
         - user_ip
 
     UsageLimitResponse:
+      description: API usage limit and usage for the current month.
       type: object
       properties:
         limit:
@@ -249,7 +253,7 @@ paths:
   /1.2/key-sites:
     get:
       operationId: getKeySites
-      summary: Keep track of the sites that are using your Akismet API key.
+      summary: Keep track of the sites that are using your Akismet API key
       description: |
         Lists sites using your API key along with stats on their API usage.
       parameters:
@@ -367,7 +371,7 @@ paths:
   /1.2/usage-limit:
     get:
       operationId: getUsageLimit
-      summary: Keep track of your Akismet API usage.
+      summary: Keep track of your Akismet API usage
       description: |
         Returns your API usage limit and your usage for the current month.
       parameters:

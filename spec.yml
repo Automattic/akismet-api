@@ -44,7 +44,7 @@ components:
         - blog
 
     StandardParameters:
-      description: Request parameters for the comment-check, submit-spam and submit-ham endpoints.
+      description: A comment and its context, sent to the comment-check, submit-spam and submit-ham endpoints.
       type: object
       properties:
         api_key:

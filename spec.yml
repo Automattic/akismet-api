@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Akismet API
   description: Developer API to interact with the Akismet spam detection service.
-  version: 1.1.0
+  version: 1.1.1
   termsOfService: https://akismet.com/tos/
   contact:
     name: Contact Akismet
@@ -77,7 +77,8 @@ components:
           description: The permanent URL of the entry where the comment was submitted.
         comment_type:
           type: string
-          description: The type of the comment. Accepted values are "comment", "trackback", "pingback", or a custom type.
+          description: |
+            A string that describes the type of content being sent. Examples include "comment", "forum-post", "reply", "blog-post", "contact-form", "signup", "message", "trackback" and "pingback". You may send a value not listed here if none of these accurately describe your content.
         comment_date_gmt:
           type: string
           format: date-time
@@ -89,6 +90,12 @@ components:
         comment_parent:
           type: string
           description: The ID of the parent comment, if applicable.
+        blog_lang:
+          type: string
+          description: Indicates the language(s) in use on the blog or site, in ISO 639-1 format, comma-separated. For example, "en, fr_ca".
+        blog_charset:
+          type: string
+          description: The character encoding for the form values included in comment_* parameters, such as "UTF-8" or "ISO-8859-1".
         referrer:
           type: string
           description: The referrer URL of the comment submitter.

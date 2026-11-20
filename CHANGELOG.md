@@ -5,6 +5,16 @@ All notable changes to the Akismet API spec are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1]
+
+### Added
+
+- Added the `blog_lang` and `blog_charset` parameters to `StandardParameters`.
+
+### Changed
+
+- Expanded the `comment_type` description to list the documented content types: `forum-post`, `reply`, `blog-post`, `contact-form`, `signup` and `message`.
+
 ## [1.1.0]
 
 ### Added
